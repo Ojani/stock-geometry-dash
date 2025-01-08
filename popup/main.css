@@ -1,0 +1,70 @@
+body {
+  background: linear-gradient(to top, black, #444 30%, white 30%, #363b42 30%, #111 100%);
+  border-radius: 1em;
+  user-select: none;
+  width: 300px;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+.options {
+  background: linear-gradient(to bottom right, #333 20%, #111);
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.4);
+  border-radius: 0.75em;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em 0;
+  margin: 0 auto;
+  color: white;
+  display: flex;
+  width: 80%;
+  gap: 2em;
+}
+
+label {
+  margin-bottom: 0.5em;
+  font-size: 1.75em;
+  display: block;
+}
+
+input {
+  cursor: grab;
+}
+
+input:active {
+  cursor: grabbing;
+}
+
+.startBtn {
+  all: unset;
+
+  background: linear-gradient(to bottom right, #333 20%, #111);
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.4);
+  border: 1px solid #333;
+  box-sizing: border-box;
+  /* background: #c8e3ff; */
+  border-radius: 0.4em;
+  margin: 0.6em auto;
+  font-weight: light;
+  text-align: center;
+  padding: 0.5em 0;
+  cursor: pointer;
+  font-size: 2em;
+  display: block;
+  color: white;
+  width: 80%;
+}
+
+.startBtn:hover:active {
+  background: black;
+}
+
+svg {
+  pointer-events: none;
+  position: absolute;
+  top: 1.3em;
+  right: 0;
+}

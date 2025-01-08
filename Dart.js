@@ -6,7 +6,7 @@ class Dart {
   #scale;
   #angle;
 
-  constructor({ speed = 8, scale = 0.6, trailWidth = 2, pointSpacing = 2, points } = {}) {
+  constructor({ speed = 8, scale = 0.5, trailWidth = 2, pointSpacing = 2, points } = {}) {
     this.points = points ?? Dart.getPoints(pointSpacing)
     this.pointSpacing = pointSpacing
     this.trailWidth = trailWidth
