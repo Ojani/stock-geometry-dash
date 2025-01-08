@@ -6,19 +6,19 @@ class Dart {
   #scale;
   #angle;
 
-  constructor({ speed = 8, scale = 0.6, trailWidth = 2, points } = {}) {
-    this.points = points ?? Dart.getPoints()
+  constructor({ speed = 8, scale = 0.6, trailWidth = 2, pointSpacing = 2, points } = {}) {
+    this.points = points ?? Dart.getPoints(pointSpacing)
+    this.pointSpacing = pointSpacing
     this.trailWidth = trailWidth
     this.#isMoving = false
     this.speed = speed
     this.#scale = scale
     this.#angle = 0
-    this.addToDOM()
   }
 
   set scale(n) {
-    this.scale = n
-    this.addToDOM()
+    this.#scale = n
+    this.reinit()
   }
 
   get scale() {
@@ -47,7 +47,7 @@ class Dart {
 
   reinit() {
     this.addToDOM()
-    this.points = Dart.getPoints()
+    this.points = Dart.getPoints(this.pointSpacing)
   }
 
   move(index) {
@@ -67,6 +67,11 @@ class Dart {
   }
 
   start() {
+    // reinitializing the dart if it's not in the DOM
+    if (document.querySelectorAll(".graphCover, .dartWrapper").length < 2) {
+      this.reinit()
+    }
+
     const pathWithPoints = Dart.getPathWithPoints()
     pathWithPoints.setAttribute("stroke-width", this.trailWidth)
     this.#isMoving = true
@@ -75,7 +80,7 @@ class Dart {
     this.move(0)
   }
 
-  static getPoints() {
+  static getPoints(pointSpacing) {
     const pathWithPoints = Dart.getPathWithPoints()
     const pointsString = pathWithPoints.getAttribute('d')
     // each point is in the format ['x y']
@@ -98,14 +103,15 @@ class Dart {
 
       // if(x2 - x1 > 500) break // puntos se salen de la pantalla
       
-      if (x2 - x1 > 2) {
+      // adding points in between if the distance between is greater than the point spacing
+      if (x2 - x1 > pointSpacing) {
         let slope = (y2 - y1) / (x2 - x1)
         // checking how many points have to be added
-        let add = Math.floor((x2 - x1) / 2) - 1
+        let add = Math.floor((x2 - x1) / pointSpacing) - 1
 
         for (let j = 0; j < add; j++) {
-          let newX = ogPts[i][0] + (1 * 2) * j
-          let newY = ogPts[i][1] + (slope * 2) * j
+          let newX = ogPts[i][0] + (1 * pointSpacing) * j
+          let newY = ogPts[i][1] + (slope * pointSpacing) * j
           pts.push([newX, newY])
         }
       }
