@@ -30,12 +30,22 @@ label {
   display: block;
 }
 
-input {
+input[type="range"] {
   cursor: grab;
 }
 
-input:active {
+input[type="range"]:active {
   cursor: grabbing;
+}
+
+.checkboxOption {
+  justify-content: space-between;
+  display: flex;
+  width: 50%;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
 }
 
 .startBtn {

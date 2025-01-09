@@ -3,16 +3,19 @@ class Dart {
   #dartElem;
   #svgElem;
   #timeout;
+  #flyOff;
   #scale;
   #angle;
 
   constructor({ speed = 8, scale = 0.5, trailWidth = 2, pointSpacing = 2, points } = {}) {
-    this.points = points ?? Dart.getPoints(pointSpacing)
+    this.points = points ?? Dart.getPoints(pointSpacing, this.#flyOff)
     this.pointSpacing = pointSpacing
     this.trailWidth = trailWidth
     this.#isMoving = false
     this.speed = speed
     this.#scale = scale
+    this.#flyOff = false
+    this.loop = false
     this.#angle = 0
   }
 
@@ -23,6 +26,15 @@ class Dart {
 
   get scale() {
     return this.#scale
+  }
+  
+  set flyOff(val) {
+    this.#flyOff = val
+    this.reinit()
+  }
+  
+  get flyOff() {
+    return this.#flyOff
   }
 
   stop() {
@@ -47,11 +59,14 @@ class Dart {
 
   reinit() {
     this.addToDOM()
-    this.points = Dart.getPoints(this.pointSpacing)
+    this.points = Dart.getPoints(this.pointSpacing, this.#flyOff)
   }
 
   move(index) {
-    if (index >= this.points.length) return
+    if (index >= this.points.length) {
+      if (this.loop) index = 0
+      else return
+    }
     
     if (index < this.points.length - 1) {
       this.#angle = Dart.getAngleBetweenPoints(this.points[index], this.points[index+1]) ?? this.#angle
@@ -80,7 +95,7 @@ class Dart {
     this.move(0)
   }
 
-  static getPoints(pointSpacing) {
+  static getPoints(pointSpacing, flyOff) {
     const pathWithPoints = Dart.getPathWithPoints()
     const pointsString = pathWithPoints.getAttribute('d')
     // each point is in the format ['x y']
@@ -101,7 +116,7 @@ class Dart {
       let x2 = ogPts[i+1][0]
       let y2 = ogPts[i+1][1]
 
-      // if(x2 - x1 > 500) break // puntos se salen de la pantalla
+      if(!flyOff && x2 - x1 > 500) break // preventing the dart from continuing beyond the chart
       
       // adding points in between if the distance between is greater than the point spacing
       if (x2 - x1 > pointSpacing) {

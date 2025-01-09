@@ -1,3 +1,5 @@
+const flyOffCheckbox = document.querySelector("#flyOff");
+const loopCheckbox = document.querySelector("#loop");
 const startBtn = document.querySelector(".startBtn");
 const speedInput = document.querySelector("#speed");
 const sizeInput = document.querySelector("#size");
@@ -8,8 +10,10 @@ chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
 
   // getting the initial config values for the dart
   chrome.tabs.sendMessage(activeTab.id, {getDartConfig: true})
-  .then(({ trailWidth, speed, scale }) => {
+  .then(({ trailWidth, speed, scale, flyOff, loop }) => {
+    flyOffCheckbox.checked = flyOff
     twInput.value = trailWidth
+    loopCheckbox.checked = loop
     speedInput.value = speed
     sizeInput.value = scale
   })
@@ -19,4 +23,6 @@ chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
   sizeInput.addEventListener('change', (e) => chrome.tabs.sendMessage(activeTab.id, {dartSize: e.target.value}))
   speedInput.addEventListener('change', (e) => chrome.tabs.sendMessage(activeTab.id, {dartSpeed: e.target.value}))
   twInput.addEventListener('change', (e) => chrome.tabs.sendMessage(activeTab.id, {dartTrailWidth: e.target.value}))
+  loopCheckbox.addEventListener('change', (e) => chrome.tabs.sendMessage(activeTab.id, {dartLoop: e.target.checked}))
+  flyOffCheckbox.addEventListener('change', (e) => chrome.tabs.sendMessage(activeTab.id, {dartFlyOff: e.target.checked}))
 })
