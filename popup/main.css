@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(to top, black, #444 30%, white 30%, #363b42 30%, #111 100%);
+  background: linear-gradient(to top, #23272b, #111);
   border-radius: 1em;
   user-select: none;
   width: 300px;
