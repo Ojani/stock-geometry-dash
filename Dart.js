@@ -15,6 +15,7 @@ class Dart {
     this.speed = speed
     this.#scale = scale
     this.#flyOff = false
+    this.loopDelay = 0
     this.loop = false
     this.#angle = 0
   }
@@ -62,10 +63,12 @@ class Dart {
     this.points = Dart.getPoints(this.pointSpacing, this.#flyOff)
   }
 
-  move(index) {
+  move(index = 0) {
     if (index >= this.points.length) {
-      if (this.loop) index = 0
-      else return
+      if (this.loop) {
+        this.#timeout = setTimeout(() => this.move(), this.loopDelay)
+      }
+      return
     }
     
     if (index < this.points.length - 1) {
@@ -92,7 +95,7 @@ class Dart {
     this.#isMoving = true
 
     clearTimeout(this.#timeout)
-    this.move(0)
+    this.move()
   }
 
   static getPoints(pointSpacing, flyOff) {
