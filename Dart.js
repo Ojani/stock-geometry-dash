@@ -135,5 +135,5 @@ class Dart {
 }
 
 // d = new Dart()
-d = new Dart({ speed: 7, scale: 0.5, trailWidth: 1 })
-d.start()
+// d = new Dart({ speed: 7, scale: 0.5, trailWidth: 1 })
+// d.start()

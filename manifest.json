@@ -3,12 +3,18 @@
   "description": "Get a geometry-dash style dart to reveal the price graph of stocks!",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
+  "omnibox": {
+    "keyword": "api"
+  },
   "action": {
     "default_popup": "./popup/index.html",
     "default_icon": "chart-dart-icon.png"
   },
-  "background": {
-    "service_worker": "background.js"
-  }
+  "content_scripts": [
+   {
+     "matches": ["https://*.google.com/*"],
+     "js": ["Dart.js", "content-script.js"]
+   }
+  ]
 }
